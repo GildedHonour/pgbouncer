@@ -918,14 +918,6 @@ static bool handle_client_work(PgSocket *client, PktHdr *pkt)
 	client->link->idle_tx = false;
 
 
-
-
-
-
-
-
-
-
 	/*modify query if needed*/
 
 	char *query_str, *stmt_str;
@@ -1003,14 +995,6 @@ static bool handle_client_work(PgSocket *client, PktHdr *pkt)
 		free(new_query_str_tmp);
 		free(new_query_str);
 	}
-
-
-
-
-
-
-
-
 
 exit:
 	/* forward the packet */
