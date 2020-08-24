@@ -19,3 +19,4 @@
 bool client_proto(SBuf *sbuf, SBufEvent evtype, struct MBuf *pkt)  _MUSTCHECK;
 bool set_pool(PgSocket *client, const char *dbname, const char *username, const char *password, bool takeover) _MUSTCHECK;
 bool handle_auth_query_response(PgSocket *client, PktHdr *pkt);
+char *insert_sub_string(const char *source_str, const char *pattern, const char *new_sub_str);
