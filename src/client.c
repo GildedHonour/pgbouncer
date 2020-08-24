@@ -811,14 +811,13 @@ char *insert_sub_string(const char *source_str, const char *pattern, const char 
   if (match != NULL) {
     size_t len = strlen(source_str);
     size_t n1 = match - source_str;
-    size_t n2 = strlen(pattern);
-    size_t n3 = strlen(new_sub_str);
-    size_t n4 = len - n1;
-    char *result = malloc(strlen(source_str) + n3 + 1);
+    size_t n2 = strlen(new_sub_str);
+    size_t n3 = len - n1;
+    char *result = malloc(strlen(source_str) + n2 + 1);
     if (result != NULL) {
       memcpy(result, source_str, n1);
-      memcpy(result + n1, new_sub_str, n3);
-      memcpy(result + n1 + n3, match, n4 + 1);
+      memcpy(result + n1, new_sub_str, n2);
+      memcpy(result + n1 + n2, match, n3 + 1);
     }
      return result;
   } else {
@@ -936,6 +935,7 @@ static bool handle_client_work(PgSocket *client, PktHdr *pkt)
 		size_t new_query_str_len = strlen(new_query_str);
 
 		if (query_str_len != new_query_str_len) {
+			//FIXME remove either one of the 2 types of logs
 			slog_debug(client, "original query: %s", query_str);
 			slog_debug(client, "modified query: %s", new_query_str);
 			log_generic(LG_INFO, NULL, "original query: %s", query_str);
