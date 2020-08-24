@@ -826,9 +826,9 @@ char *insert_sub_string(const char *source_str, const char *pattern, const char 
 }
 
 const int Q_OFFSET_TO_QUERY_BODY = 5;
-char *q_pattern1 = "commit";
-char *q_pattern2 = "rollback";
-char *new_sub_query = "select prepare_commit();"; //TODO move to config
+char *const q_pattern1 = "commit";
+char *const q_pattern2 = "rollback";
+char *const new_sub_query = "select prepare_commit();"; //TODO move to config
 
 /* decide on packets of logged-in client */
 static bool handle_client_work(PgSocket *client, PktHdr *pkt)
@@ -917,7 +917,10 @@ static bool handle_client_work(PgSocket *client, PktHdr *pkt)
 	client->link->idle_tx = false;
 
 
-	/*modify query if needed*/
+
+	/*
+	modify query if needed
+	*/
 
 	char *query_str, *stmt_str;
 	char *pkt_start = (char *) &sbuf->io->buf[sbuf->io->parse_pos];
@@ -935,7 +938,7 @@ static bool handle_client_work(PgSocket *client, PktHdr *pkt)
 		size_t new_query_str_len = strlen(new_query_str);
 
 		if (query_str_len != new_query_str_len) {
-			//FIXME remove either one of the 2 types of logs
+			/*TODO you may need only 1 type of these 2 types of logs*/
 			slog_debug(client, "original query: %s", query_str);
 			slog_debug(client, "modified query: %s", new_query_str);
 			log_generic(LG_INFO, NULL, "original query: %s", query_str);
@@ -995,6 +998,11 @@ static bool handle_client_work(PgSocket *client, PktHdr *pkt)
 		free(new_query_str_tmp);
 		free(new_query_str);
 	}
+
+	/*
+	end of 'modify query if needed'
+	*/
+
 
 exit:
 	/* forward the packet */
